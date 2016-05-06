@@ -72,8 +72,14 @@ public class AnimatedPanel extends JPanel
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "d-pressed");
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "d-released");
 		
+		//Odd interactions
+		//keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D & KeyEvent.VK_A, 0, false), "ad-pressed");
+		//keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D & KeyEvent.VK_A, 0, true), "ad-released");
+		
 		actionCollection.put("a-pressed", new AKeyPressed());
 		actionCollection.put("a-released", new AKeyReleased());
+		actionCollection.put("d-pressed", new DKeyPressed());
+		actionCollection.put("d-released", new DKeyReleased());
 	}
 	
 	private class AKeyPressed extends AbstractAction
@@ -92,7 +98,29 @@ public class AnimatedPanel extends JPanel
 		public void actionPerformed(ActionEvent e)
 		{
 			player.setMovement(2, false);
-			player.setCurrentImage(player.getStandingImage());
+			player.setCurrentImage(player.getLeftStandingImage());
+			repaint();
+			t.stop();
+		}
+	}
+	
+	private class DKeyPressed extends AbstractAction
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			player.setMovement(4, true);
+			t.start();
+		}
+	}
+	
+	private class DKeyReleased extends AbstractAction
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			player.setMovement(4, false);
+			player.setCurrentImage(player.getRightStandingImage());
 			repaint();
 			t.stop();
 		}
@@ -107,6 +135,14 @@ public class AnimatedPanel extends JPanel
 			{
 				player.setCurrentImage(player.getLeftAnimationCycle(animationHelper));
 				player.setPlayerX(2);
+				animationHelper++;
+				if(animationHelper > 7) animationHelper = 0;
+				repaint();
+			}
+			if(player.getMovement(4))
+			{
+				player.setCurrentImage(player.getRightAnimationCycle(animationHelper));
+				player.setPlayerX(4);
 				animationHelper++;
 				if(animationHelper > 7) animationHelper = 0;
 				repaint();

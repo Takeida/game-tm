@@ -12,7 +12,8 @@ public class Player/* implements Runnable*/
 {
 	private Image[] walkLeft;
 	private Image[] walkRight;
-	private Image stop;
+	private Image standingLeft;
+	private Image standingRight;
 	private Image currentImage;
 	private boolean movW = false,
 					movA = false,
@@ -23,12 +24,17 @@ public class Player/* implements Runnable*/
 	public Player()
 	{
 		initPlayerAnimation();
-		currentImage = stop;
+		currentImage = standingLeft;
 	}
 	
-	public Image getStandingImage()
+	public Image getLeftStandingImage()
 	{
-		return stop;
+		return standingLeft;
+	}
+	
+	public Image getRightStandingImage()
+	{
+		return standingRight;
 	}
 	
 	public Image getCurrentImage()
@@ -55,12 +61,24 @@ public class Player/* implements Runnable*/
 			case 2:
 				playerX-=4;
 				break;
+			case 3:
+				break;
+			case 4:
+				playerX+=4;
+				break;
+			default:
+				break;
 		}
 	}
 	
 	public Image getLeftAnimationCycle(int cycle)
 	{
 		return walkLeft[cycle];
+	}
+	
+	public Image getRightAnimationCycle(int cycle)
+	{
+		return walkRight[cycle];
 	}
 	
 	public boolean getMovement(int key)
@@ -109,7 +127,8 @@ public class Player/* implements Runnable*/
 		try
 		{
 			//Stopped (no animation)
-			stop = ImageIO.read(new File("player_walk_left_zero.png"));
+			standingLeft = ImageIO.read(new File("player_walk_left_zero.png"));
+			standingRight = ImageIO.read(new File("player_walk_right_zero.png"));
 			
 			//Moving left animation
 			walkLeft[0] = ImageIO.read(new File("player_walk_left_one.png"));
@@ -120,7 +139,7 @@ public class Player/* implements Runnable*/
 			walkLeft[5] = ImageIO.read(new File("player_walk_left_six.png"));
 			walkLeft[6] = ImageIO.read(new File("player_walk_left_seven.png"));
 			walkLeft[7] = ImageIO.read(new File("player_walk_left_eight.png"));
-			/*
+			
 			//Moving right animation
 			walkRight[0] = ImageIO.read(new File("player_walk_right_one.png"));
 			walkRight[1] = ImageIO.read(new File("player_walk_right_two.png"));
@@ -129,7 +148,7 @@ public class Player/* implements Runnable*/
 			walkRight[4] = ImageIO.read(new File("player_walk_right_five.png"));
 			walkRight[5] = ImageIO.read(new File("player_walk_right_six.png"));
 			walkRight[6] = ImageIO.read(new File("player_walk_right_seven.png"));
-			walkRight[7] = ImageIO.read(new File("player_walk_right_eight.png"));*/
+			walkRight[7] = ImageIO.read(new File("player_walk_right_eight.png"));
 		}catch(IOException ioe)
 		{
 			System.out.println("Image files could not be found!");
