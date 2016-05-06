@@ -36,6 +36,7 @@ public class AnimatedPanel extends JPanel
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		ActionListener sceneRenderer = new CustomRepainter();
 		t = new Timer(40, sceneRenderer);
+		t.start();
 	}
 	
 	private void loadFloor()
@@ -92,7 +93,7 @@ public class AnimatedPanel extends JPanel
 		public void actionPerformed(ActionEvent e)
 		{
 			player.setMovement(2, true);
-			t.start();
+			//t.start();
 		}
 	}
 	
@@ -104,7 +105,7 @@ public class AnimatedPanel extends JPanel
 			player.setMovement(2, false);
 			player.setCurrentImage(player.getLeftStandingImage());
 			repaint();
-			t.stop();
+			//t.stop();
 		}
 	}
 	
@@ -114,7 +115,7 @@ public class AnimatedPanel extends JPanel
 		public void actionPerformed(ActionEvent e)
 		{
 			player.setMovement(4, true);
-			t.start();
+			//t.start();
 		}
 	}
 	
@@ -126,7 +127,7 @@ public class AnimatedPanel extends JPanel
 			player.setMovement(4, false);
 			player.setCurrentImage(player.getRightStandingImage());
 			repaint();
-			t.stop();
+			//t.stop();
 		}
 	}
 	
@@ -142,8 +143,7 @@ public class AnimatedPanel extends JPanel
 				animationHelper++;
 				if(animationHelper > 7) animationHelper = 0;
 				repaint();
-			}
-			if(player.getMovement(4))
+			} if(player.getMovement(4))
 			{
 				player.setCurrentImage(player.getRightAnimationCycle(animationHelper));
 				player.setPlayerX(4);
