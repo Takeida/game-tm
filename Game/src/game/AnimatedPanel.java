@@ -20,11 +20,8 @@ public class AnimatedPanel extends JPanel
 {
 	private Player player;
 	private final int PANEL_WIDTH = 600, PANEL_HEIGHT = 600;
-	private final String RELEASED = "released ";
-	private final String PRESSED = "pressed ";
 	private Image floor;
 	private Timer t;
-	private KeyStroke currentKeyStroke;
 	private InputMap keyToActionBinder;
 	private ActionMap actionCollection;
 	private static int animationHelper = 0;
@@ -38,7 +35,7 @@ public class AnimatedPanel extends JPanel
 		KeyStrokeHandler();
 		setSize(PANEL_WIDTH, PANEL_HEIGHT);
 		ActionListener sceneRenderer = new CustomRepainter();
-		t = new Timer(100, sceneRenderer);
+		t = new Timer(40, sceneRenderer);
 	}
 	
 	private void loadFloor()
@@ -88,7 +85,6 @@ public class AnimatedPanel extends JPanel
 			player.setMovement(2, true);
 			t.start();
 		}
-		
 	}
 	
 	private class AKeyReleased extends AbstractAction
@@ -101,12 +97,10 @@ public class AnimatedPanel extends JPanel
 			repaint();
 			t.stop();
 		}
-		
 	}
 	
 	private class CustomRepainter implements ActionListener
 	{
-
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
@@ -118,62 +112,6 @@ public class AnimatedPanel extends JPanel
 				if(animationHelper > 7) animationHelper = 0;
 				repaint();
 			}
-			
 		}
-		
 	}
-	
-/*	private class Listener implements KeyListener
-	{
-
-		@Override
-		public void keyTyped(KeyEvent e) {}
-
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			if(e.getKeyCode() == KeyEvent.VK_W)
-			{
-				player.setMovement(1, true);
-				repaint();
-			}
-			if(e.getKeyCode() == KeyEvent.VK_A)
-			{
-				player.setMovement(2, true);
-				repaint();
-			}
-			if(e.getKeyCode() == KeyEvent.VK_S)
-			{
-				player.setMovement(3, true);
-			}
-			if(e.getKeyCode() == KeyEvent.VK_D)
-			{
-				player.setMovement(4, true);
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e)
-		{
-			if(e.getKeyCode() == KeyEvent.VK_W)
-			{
-				player.setMovement(1, false);
-			}
-			if(e.getKeyCode() == KeyEvent.VK_A)
-			{
-				player.setMovement(2, false);
-				player.setCurrentImage(player.getStandingImage());
-				repaint();
-				System.out.println("Released");
-			}
-			if(e.getKeyCode() == KeyEvent.VK_S)
-			{
-				player.setMovement(3, false);
-			}
-			if(e.getKeyCode() == KeyEvent.VK_D)
-			{
-				player.setMovement(4, false);
-			}
-		}
-	}*/
 }
