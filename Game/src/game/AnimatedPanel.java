@@ -29,8 +29,6 @@ public class AnimatedPanel extends JPanel
 	public AnimatedPanel()
 	{
 		player = new Player();
-		//Thread movPlayer = new Thread(player);
-		//movPlayer.start();
 		loadFloor();
 		KeyStrokeHandler();
 		setSize(PANEL_WIDTH, PANEL_HEIGHT);
