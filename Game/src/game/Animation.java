@@ -10,6 +10,7 @@ public class Animation {
 		frame.setSize(600, 400);
 		frame.setTitle("OMG A GAME");
 		frame.add(new AnimatedPanel());
+		frame.pack();
 		frame.setVisible(true);
 	}
 }

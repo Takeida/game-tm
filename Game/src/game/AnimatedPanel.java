@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,7 @@ import javax.swing.Timer;
 public class AnimatedPanel extends JPanel
 {
 	private Player player;
-	private final int PANEL_WIDTH = 600, PANEL_HEIGHT = 600;
+	private final int PANEL_WIDTH = 600, PANEL_HEIGHT = 380;
 	private Image floor;
 	private Timer t;
 	private InputMap keyToActionBinder;
@@ -31,7 +32,7 @@ public class AnimatedPanel extends JPanel
 		player = new Player();
 		loadFloor();
 		KeyStrokeHandler();
-		setSize(PANEL_WIDTH, PANEL_HEIGHT);
+		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		ActionListener sceneRenderer = new CustomRepainter();
 		t = new Timer(40, sceneRenderer);
 	}
