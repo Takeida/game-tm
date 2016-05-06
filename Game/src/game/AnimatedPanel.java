@@ -41,7 +41,7 @@ public class AnimatedPanel extends JPanel
 	{
 		try
 		{
-			floor = ImageIO.read(new File("floor.png"));
+			floor = ImageIO.read(new File("/resources/floor.png"));
 		}
 		catch(IOException ioe)
 		{
