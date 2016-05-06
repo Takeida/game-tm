@@ -18,7 +18,6 @@ public class Player/* implements Runnable*/
 					movA = false,
 					movS = false,
 					movD = false;
-	private static int animationCounter = 0;
 	private int playerX = 400;
 	
 	public Player()
@@ -102,30 +101,6 @@ public class Player/* implements Runnable*/
 				movW = onOrOff;
 		}
 	}
-	
-/*	public void run()
-	{
-		try
-		{
-			while(true)
-			{
-				if(movA)
-				{
-					currentImage = walkLeft[animationCounter];
-					playerX-=4;
-				}
-				//if(movD)
-				//System.out.println("Player is running");
-				animationCounter++;
-				Thread.sleep(100);
-				if(animationCounter > 7) animationCounter = 0;
-			}
-		}
-		catch(InterruptedException ie)
-		{
-			ie.printStackTrace();
-		}
-	}*/
 	
 	private void initPlayerAnimation()
 	{
