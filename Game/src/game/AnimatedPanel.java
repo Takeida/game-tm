@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -41,12 +42,15 @@ public class AnimatedPanel extends JPanel
 	{
 		try
 		{
-			floor = ImageIO.read(new File("/resources/floor.png"));
+			floor = ImageIO.read(new File(getClass().getResource("/resources/floor.png").toURI()));
 		}
 		catch(IOException ioe)
 		{
 			System.out.println("floor.png could not be found");
 			ioe.printStackTrace();
+		} catch (URISyntaxException e) {
+			System.out.println("WTF is URI");
+			e.printStackTrace();
 		}
 	}
 	
