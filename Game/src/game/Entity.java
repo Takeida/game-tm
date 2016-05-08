@@ -1,81 +1,57 @@
 package game;
 
-import java.awt.Image;
-
 public abstract class Entity
 {
-	private Image[] walkLeft = new Image[8];
-	private Image[] walkRight  = new Image[8];
-	private Image standingLeft;
-	private Image standingRight;
-	private Image currentImage;
+	private int entityPositionX;
+	private int entityPositionY;
+	private boolean isDead;
 	private boolean movUP = false,
 					movLEFT = false,
 					movDOWN = false,
 					movRIGHT = false;
-	private int playerX;
-	private int playerY;
 	private int dX;
+	
+	public Entity()
+	{
+		this.isDead = false;
+	}
+	
+	protected abstract void initEntityAnimation();
+	
+	public void setInitialPosition(int x, int y)
+	{
+		entityPositionX = x;
+		entityPositionY = y;
+	}
+	
+	public int getPositionX()
+	{
+		return entityPositionX;
+	}
+	
+	public int getPositionY()
+	{
+		return entityPositionY;
+	}
+	
+	public void setIsDead(boolean dead)
+	{
+		isDead = dead;
+	}
+	
+	public boolean getIsDead()
+	{
+		return isDead;
+	}
 	
 	public void setdX(int change)
 	{
 		dX = change;
 	}
 	
-	public void setInitialPosition(int x, int y)
+	public int getdX()
 	{
-		playerX = x;
-		playerY = y;
-	}
-	
-	public void setLeftStandingImage(Image image)
-	{
-		standingLeft = image;
-	}
-	
-	public void setRightStandingImage(Image image)
-	{
-		standingRight = image;
-	}
-	
-	public Image getLeftStandingImage()
-	{
-		return standingLeft;
-	}
-	
-	public Image getRightStandingImage()
-	{
-		return standingRight;
-	}
-	
-	public void setWalkLeft(int index, Image image)
-	{
-		walkLeft[index] = image;
-	}
-	
-	public void setWalkRight(int index, Image image)
-	{
-		walkRight[index] = image;
-	}
-	
-	public Image getCurrentImage()
-	{
-		return currentImage;
-	}
-	
-	public void setCurrentImage(Image image)
-	{
-		currentImage = image;
-	}
-	
-	public int getX()
-	{
-		return playerX;
-	}
-	
-	public int getY()
-	{
-		return playerY;
+		return dX;
 	}
 	
 	public void setEntityX(int key)
@@ -85,27 +61,17 @@ public abstract class Entity
 			case 1:
 				break;
 			case 2:
-				playerX-= dX;
+				entityPositionX -= dX;
 				break;
 			case 3:
 				break;
 			case 4:
-				playerX+= dX;
+				entityPositionX += dX;
 				break;
 			default:
 				break;
 		}
-	}
-	
-	public Image getLeftAnimationCycle(int cycle)
-	{
-		return walkLeft[cycle];
-	}
-	
-	public Image getRightAnimationCycle(int cycle)
-	{
-		return walkRight[cycle];
-	}
+	}	
 	
 	public boolean getMovement(int key)
 	{
@@ -146,5 +112,5 @@ public abstract class Entity
 		}
 	}
 	
-	public abstract void initPlayerAnimation();
+	
 }

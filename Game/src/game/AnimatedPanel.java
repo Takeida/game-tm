@@ -59,7 +59,7 @@ public class AnimatedPanel extends JPanel
 	{
 		super.paintComponent(g);
 		g.drawImage(floor, 0, 280, 600, 99, null);
-		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), 30, 50, null);
+		g.drawImage(player.getCurrentImage(), player.getPositionX(), player.getPositionY(), 30, 50, null);
 	}
 
 	private void KeyStrokeHandler()
