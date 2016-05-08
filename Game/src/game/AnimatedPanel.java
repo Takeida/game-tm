@@ -27,7 +27,7 @@ public class AnimatedPanel extends JPanel
 	private InputMap keyToActionBinder;
 	private ActionMap actionCollection;
 	private static int animationHelper = 0;
-	
+
 	public AnimatedPanel()
 	{
 		player = new Player();
@@ -38,7 +38,7 @@ public class AnimatedPanel extends JPanel
 		t = new Timer(40, sceneRenderer);
 		t.start();
 	}
-	
+
 	private void loadFloor()
 	{
 		try
@@ -54,19 +54,19 @@ public class AnimatedPanel extends JPanel
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		g.drawImage(floor, 0, 280, 600, 99, null);
-		g.drawImage(player.getCurrentImage(), player.getPlayerX(), 240, 30, 50, null);
+		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), 30, 50, null);
 	}
-	
+
 	private void KeyStrokeHandler()
 	{
 		keyToActionBinder = getInputMap(WHEN_IN_FOCUSED_WINDOW);
 		actionCollection = getActionMap();
-		
+
 		//Creating a bunch of events, where when w is pressed, no modifier, isReleased = false, named as w-pressed
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "w-pressed");
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true), "w-released");
@@ -76,17 +76,17 @@ public class AnimatedPanel extends JPanel
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "s-released");
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "d-pressed");
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "d-released");
-		
+
 		//Odd interactions
 		//keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D & KeyEvent.VK_A, 0, false), "ad-pressed");
 		//keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D & KeyEvent.VK_A, 0, true), "ad-released");
-		
+
 		actionCollection.put("a-pressed", new AKeyPressed());
 		actionCollection.put("a-released", new AKeyReleased());
 		actionCollection.put("d-pressed", new DKeyPressed());
 		actionCollection.put("d-released", new DKeyReleased());
 	}
-	
+
 	private class AKeyPressed extends AbstractAction
 	{
 		@Override
@@ -96,7 +96,7 @@ public class AnimatedPanel extends JPanel
 			//t.start();
 		}
 	}
-	
+
 	private class AKeyReleased extends AbstractAction
 	{
 		@Override
@@ -108,7 +108,7 @@ public class AnimatedPanel extends JPanel
 			//t.stop();
 		}
 	}
-	
+
 	private class DKeyPressed extends AbstractAction
 	{
 		@Override
@@ -118,7 +118,7 @@ public class AnimatedPanel extends JPanel
 			//t.start();
 		}
 	}
-	
+
 	private class DKeyReleased extends AbstractAction
 	{
 		@Override
@@ -130,23 +130,24 @@ public class AnimatedPanel extends JPanel
 			//t.stop();
 		}
 	}
-	
+
 	private class CustomRepainter implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			if(player.getMovement(2))
+			if(player.getMovement(4))
 			{
-				player.setCurrentImage(player.getLeftAnimationCycle(animationHelper));
-				player.setPlayerX(2);
+				player.setCurrentImage(player.getRightAnimationCycle(animationHelper));
+				player.setEntityX(4);
 				animationHelper++;
 				if(animationHelper > 7) animationHelper = 0;
 				repaint();
-			} if(player.getMovement(4))
+			}
+			if(player.getMovement(2))
 			{
-				player.setCurrentImage(player.getRightAnimationCycle(animationHelper));
-				player.setPlayerX(4);
+				player.setCurrentImage(player.getLeftAnimationCycle(animationHelper));
+				player.setEntityX(2);
 				animationHelper++;
 				if(animationHelper > 7) animationHelper = 0;
 				repaint();
