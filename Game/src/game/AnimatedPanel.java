@@ -22,7 +22,7 @@ public class AnimatedPanel extends JPanel
 {
 	private Player player;
 	private final int PANEL_WIDTH = 600, PANEL_HEIGHT = 380;
-	private Image floor;
+	private Image floor, bg;
 	private Timer t;
 	private InputMap keyToActionBinder;
 	private ActionMap actionCollection;
@@ -31,6 +31,7 @@ public class AnimatedPanel extends JPanel
 	public AnimatedPanel()
 	{
 		player = new Player();
+		loadBackground();
 		loadFloor();
 		KeyStrokeHandler();
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -38,7 +39,23 @@ public class AnimatedPanel extends JPanel
 		t = new Timer(40, sceneRenderer);
 		t.start();
 	}
-
+	
+	private void loadBackground()
+	{
+		try
+		{
+			bg = ImageIO.read(new File(getClass().getResource("/resources/bg.png").toURI()));
+		}
+		catch(IOException ioe)
+		{
+			System.out.println("bg.png could not be found");
+			ioe.printStackTrace();
+		} catch (URISyntaxException e) {
+			System.out.println("WTF is URI");
+			e.printStackTrace();
+		}
+	}
+	
 	private void loadFloor()
 	{
 		try
@@ -58,8 +75,9 @@ public class AnimatedPanel extends JPanel
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+		g.drawImage(bg, 0, 0, PANEL_WIDTH, PANEL_HEIGHT, null);
 		g.drawImage(floor, 0, 280, 600, 99, null);
-		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), 30, 50, null);
+		g.drawImage(player.getCurrentImage(), player.getPositionX(), player.getPositionY(), 30, 50, null);
 	}
 
 	private void KeyStrokeHandler()
@@ -76,78 +94,80 @@ public class AnimatedPanel extends JPanel
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "s-released");
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "d-pressed");
 		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "d-released");
+		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false), "space-released");
+		keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "space-released");
 
 		//Odd interactions
 		//keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D & KeyEvent.VK_A, 0, false), "ad-pressed");
 		//keyToActionBinder.put(KeyStroke.getKeyStroke(KeyEvent.VK_D & KeyEvent.VK_A, 0, true), "ad-released");
 
-		actionCollection.put("a-pressed", new AKeyPressed());
-		actionCollection.put("a-released", new AKeyReleased());
-		actionCollection.put("d-pressed", new DKeyPressed());
-		actionCollection.put("d-released", new DKeyReleased());
-	}
-
-	private class AKeyPressed extends AbstractAction
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
+		actionCollection.put("a-pressed", new AbstractAction()
 		{
-			player.setMovement(2, true);
-			//t.start();
-		}
-	}
-
-	private class AKeyReleased extends AbstractAction
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{ player.setMovement(2, true); }
+		});
+		actionCollection.put("a-released", new AbstractAction()
 		{
-			player.setMovement(2, false);
-			player.setCurrentImage(player.getLeftStandingImage());
-			repaint();
-			//t.stop();
-		}
-	}
-
-	private class DKeyPressed extends AbstractAction
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				player.setMovement(2, false);
+				player.setCurrentImage(player.getLeftStandingImage());
+				repaint();
+			}
+		});
+		actionCollection.put("d-pressed", new AbstractAction()
 		{
-			player.setMovement(4, true);
-			//t.start();
-		}
-	}
-
-	private class DKeyReleased extends AbstractAction
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{ player.setMovement(4, true); }
+		});
+		actionCollection.put("d-released", new AbstractAction()
 		{
-			player.setMovement(4, false);
-			player.setCurrentImage(player.getRightStandingImage());
-			repaint();
-			//t.stop();
-		}
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				player.setMovement(4, false);
+				player.setCurrentImage(player.getRightStandingImage());
+				repaint();
+			}
+		});
+		actionCollection.put("space-pressed", new AbstractAction()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				
+			}
+		});
+		actionCollection.put("space-released", new AbstractAction()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				
+			}
+		});
 	}
-
+	
 	private class CustomRepainter implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			if(player.getMovement(4))
-			{
-				player.setCurrentImage(player.getRightAnimationCycle(animationHelper));
-				player.setEntityX(4);
-				animationHelper++;
-				if(animationHelper > 7) animationHelper = 0;
-				repaint();
-			}
 			if(player.getMovement(2))
 			{
 				player.setCurrentImage(player.getLeftAnimationCycle(animationHelper));
 				player.setEntityX(2);
+				animationHelper++;
+				if(animationHelper > 7) animationHelper = 0;
+				repaint();
+			}
+			if(player.getMovement(4))
+			{
+				player.setCurrentImage(player.getRightAnimationCycle(animationHelper));
+				player.setEntityX(4);
 				animationHelper++;
 				if(animationHelper > 7) animationHelper = 0;
 				repaint();
