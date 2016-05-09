@@ -10,6 +10,7 @@ public abstract class Entity
 					movDOWN = false,
 					movRIGHT = false;
 	private int dX;
+	private int dY;
 	
 	public Entity()
 	{
@@ -54,6 +55,16 @@ public abstract class Entity
 		return dX;
 	}
 	
+	public void setdY(int change)
+	{
+		dY = change;
+	}
+	
+	public int getdY()
+	{
+		return dY;
+	}
+	
 	public void setEntityX(int key)
 	{
 		switch(key)
@@ -73,6 +84,28 @@ public abstract class Entity
 		}
 	}	
 	
+	public void setEntityY(int key)
+	{
+		switch(key)
+		{
+			case 1:
+				entityPositionY -= dY;
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			default:
+				break;
+		}
+	}
+	
+	public void decrementdY()
+	{
+		dY--;
+	}
 	public boolean getMovement(int key)
 	{
 		//1 = w, 2 = a, 3 = s, 4= d
@@ -111,6 +144,4 @@ public abstract class Entity
 				movUP = onOrOff;
 		}
 	}
-	
-	
 }

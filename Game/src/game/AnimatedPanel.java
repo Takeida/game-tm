@@ -27,6 +27,7 @@ public class AnimatedPanel extends JPanel
 	private InputMap keyToActionBinder;
 	private ActionMap actionCollection;
 	private static int animationHelper = 0;
+	private boolean isJumping = false;
 
 	public AnimatedPanel()
 	{
@@ -85,6 +86,7 @@ public class AnimatedPanel extends JPanel
 		actionCollection.put("a-released", new AKeyReleased());
 		actionCollection.put("d-pressed", new DKeyPressed());
 		actionCollection.put("d-released", new DKeyReleased());
+		actionCollection.put("w-pressed", new WKeyPressed());
 	}
 
 	private class AKeyPressed extends AbstractAction
@@ -131,11 +133,36 @@ public class AnimatedPanel extends JPanel
 		}
 	}
 
+	private class WKeyPressed extends AbstractAction
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			System.out.print(".");
+			if(!player.getMovement(1))
+			{
+				player.setdY(10);
+				player.setMovement(1, true);
+			}
+		}
+	}
+
 	private class CustomRepainter implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			if(player.getMovement(1))
+			{
+				if(player.getdY() < -10)
+				{
+					player.setMovement(1, false);
+				} else {
+					player.setEntityY(1);
+					player.decrementdY();
+				}
+				repaint();
+			}
 			if(player.getMovement(4))
 			{
 				player.setCurrentImage(player.getRightAnimationCycle(animationHelper));
